@@ -1,17 +1,23 @@
 {
-  "name": "dutoucs",
+  "name": "dutoaocs",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "Auto documentation for small personal projects",
+  "homepage": "https://github.com/magnusrwn/dutoaocs#readme",
+  "bugs": {
+    "url": "https://github.com/magnusrwn/dutoaocs/issues"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magnusrwn/dutoaocs.git"
+  },
+  "license": "MIT",
+  "author": "magnusrwn",
   "type": "commonjs",
-  "devDependencies": {
-    "@types/node": "^26.2.0",
-    "typescript": "^7.0.2"
+  "main": "./dist/index.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "bin":{
+    "dutoaocs":"./dist/bin.js"
   }
 }
