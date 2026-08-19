@@ -1,7 +1,7 @@
 import Entity from "./entity";
 
 // builder types
-type LlmProfile = {
+export type LlmProfile = {
     llmProvider: "openai" | "anthropic"
     linkedOn:string
     llmApiToken:string
@@ -9,8 +9,8 @@ type LlmProfile = {
 type DocArchitectureAllowedContext = {
     allowedContextFiles?:Array<string>
 }
-type DocArchitectiure = {
-    docfileName:DocArchitectureAllowedContext
+export type DocArchitecture = {
+    docfileName: DocArchitectureAllowedContext
 }
 
 // parent type
@@ -19,18 +19,18 @@ type ProjectAttrs = {
     projName: string
     existingConfigFile:boolean
     configPath?:string
-    docArchitectire?:DocArchitectiure
+    docArchitectire?:DocArchitecture
     llmLinked:boolean
     llmProfile?:LlmProfile
 }
 
 // export class
-export default class Project extends Entity<ProjectAttrs>{
+export class Project extends Entity<ProjectAttrs>{
     projectId!: string
     projName!: string
     existingConfigFile!:boolean
     configPath?:string
-    docArchitectire?:DocArchitectiure
+    docArchitecture?:DocArchitecture
     llmLinked!:boolean
     llmProfile?:LlmProfile   
 }
