@@ -3,11 +3,11 @@ import fs from "node:fs";
 
 export default class JsonProjectStore {
     constructor(private readonly filePath:string) {}
-    exists(){
+    exists():boolean{
         return fs.existsSync(this.filePath)
     }
     
-    read(){
+    read():Project{
         const data = JSON.parse(fs.readFileSync(this.filePath, 'utf8'));
         return new Project(data)
     }
