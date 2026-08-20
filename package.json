@@ -15,10 +15,11 @@
   "type": "commonjs",
   "scripts": {
     "build": "tsc",
-    "test": "tsx --test"
+    "test": "tsx --test",
+    "dev":"tsx app/bin.ts"
   },
   "bin": {
-    "dutoaocs": "./dist/bin.js"
+    "dutoaocs": "./app/dist/bin.js"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
