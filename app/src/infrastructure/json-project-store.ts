@@ -16,35 +16,7 @@ export default class JsonProjectStore {
         return fs.writeFileSync(this.filePath, JSON.stringify(project))
     }
     
-    updateConfig<K extends keyof Project>(fieldName:K, newData:Project[K]):boolean{
-        // ensure config exists
-        if (!this.exists()){
-            return false
-        }
-
-        // grab the proj
-        const data: Project = this.read()
-        if (!data){
-            return false
-        }
-
-        // edit and write data field
-        data[fieldName] = newData
-        this.write(data)
-        
-        return true
-    }
-    
-    updateConfigLlmLinked(newLlmData:LlmProfile):boolean{
-        // Created this as need to update Project.llmLinked to be true after llm info update
-        const status = this.updateConfig("llmProfile", newLlmData)
-        if (status){
-            const data = this.read()
-            data.llmLinked = true
-            this.write(data)
-            return true
-        } else {
-            return false
-        }
+    updateConfig(newProject:Project, pathTo:string):void{
+        return fs.writeFileSync(pathTo, JSON.stringify(newProject))
     }
 };
