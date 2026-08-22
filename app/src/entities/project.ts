@@ -2,31 +2,32 @@ import Entity from "./entity";
 
 // builder types
 export type LlmProfile = {
-    llmProvider: "openai" | "anthropic" | undefined
+    llmProvider: "codex" | "calude" | undefined
     linkedOn:string
     llmApiToken:string
 }
-
+export type DocFileContext = {
+    filePath:string
+    allowedContext: Array<string> | undefined
+}
 // parent type
-type ProjectAttrs = {
-    projectId: string
+export type ProjectAttrs = {
     projName: string
     existingConfigFile:boolean
     configPath:string
-    existingDocFolder:boolean
-    docContext:Array<string>
+    docFolderPath:string,
+    docFilesContext:Array<DocFileContext>
     llmLinked:boolean
     llmProfile:LlmProfile  
 }
 
 // export class
 export class Project extends Entity<ProjectAttrs>{
-    projectId!: string
     projName!: string
     existingConfigFile!:boolean
     configPath!:string
-    existingDocFolder?:boolean
-    docContext?:Array<string>
+    docFolderPath!:string
+    docFilesContext?:Array<DocFileContext>
     llmLinked!:boolean
     llmProfile?:LlmProfile   
 }

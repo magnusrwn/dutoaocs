@@ -1,3 +1,3 @@
-import {Project, LlmProfile}from "./project"
+import {Project, LlmProfile, ProjectAttrs, DocFileContext}from "./project"
 
-export {Project, LlmProfile}
+export {Project, LlmProfile, ProjectAttrs, DocFileContext}

@@ -2,14 +2,14 @@
 
 import { init, addLlm } from "./src/controllers/index"
 
-const [command] = process.argv.slice(2)
+const command:Array<string> = process.argv.slice(2)
 const userLocation:string = process.argv[0]
 
-switch (command){
+switch (command[0]){
     case "init":{
         init(userLocation)
     }
-    case "add-llm" {
-
+    case "add-llm":{
+        addLlm(command, userLocation) // note on this
     }
 }

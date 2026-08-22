@@ -1,3 +1,3 @@
 import init from "./init";
-
-export {init}
+import addLlm from "./addLlm";
+export {init, addLlm}
