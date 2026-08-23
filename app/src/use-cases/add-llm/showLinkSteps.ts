@@ -1,4 +1,4 @@
-export function showApiLinksteps(){
+export default function showApiLinksteps(){
     console.log("Currently we integrate use the OpenAI API. To integrate the key follow these steps.")
     console.log("I promise, it's super easy.")
 

@@ -1,3 +1,4 @@
 import init from "./init";
-import addLlm from "./addLlm";
-export {init, addLlm}
+import addLlmVerify from "./addLlmVerify";
+import addLlmLink from "./addLlmLink";
+export {init, addLlmLink, addLlmVerify}
