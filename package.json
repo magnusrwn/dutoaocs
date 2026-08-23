@@ -26,6 +26,7 @@
     "tsx": "^4.20.5"
   },
   "dependencies": {
+    "dotenv": "^17.4.2",
     "openai": "^7.5.0"
   }
 }
