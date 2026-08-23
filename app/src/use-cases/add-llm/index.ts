@@ -1,3 +1,4 @@
 import getProjectIfExists from "./getProjectIfExists";
+import { showApiLinksteps } from "./showLinkSteps";
 
-export {getProjectIfExists}
+export {getProjectIfExists, showApiLinksteps}

@@ -2,9 +2,8 @@ import Entity from "./entity";
 
 // builder types
 export type LlmProfile = {
-    llmProvider: "codex" | "calude" | undefined
     linkedOn:string
-    llmApiToken:string
+    apiKeyInEnv:boolean
 }
 export type DocFileContext = {
     filePath:string
