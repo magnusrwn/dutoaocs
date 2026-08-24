@@ -16,7 +16,4 @@ export default class JsonProjectStore {
         return fs.writeFileSync(this.filePath, JSON.stringify(project))
     }
     
-    updateConfig(newProject:Project, pathTo:string):void{
-        return fs.writeFileSync(pathTo, JSON.stringify(newProject))
-    }
 };
