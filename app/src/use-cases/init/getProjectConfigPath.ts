@@ -1,6 +1,5 @@
 import readline from "node:readline/promises"
 import fs from "node:fs"
-import { config } from "node:process"
 
 export default async function getProjectConfigPath(userLocation:string, rl:readline.Interface):Promise<string>{
     while (true){

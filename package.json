@@ -16,7 +16,7 @@
   "scripts": {
     "build": "tsc",
     "test": "tsx --test",
-    "dev":"tsx app/bin.ts"
+    "dev": "tsx app/bin.ts"
   },
   "bin": {
     "dutoaocs": "./app/dist/bin.js"
@@ -24,5 +24,9 @@
   "devDependencies": {
     "@types/node": "^26.2.0",
     "tsx": "^4.20.5"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "openai": "^7.5.0"
   }
 }
