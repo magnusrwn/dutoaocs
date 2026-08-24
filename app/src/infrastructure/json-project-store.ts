@@ -1,4 +1,4 @@
-import { Project, LlmProfile } from "../entities/index";
+import { Project } from "../entities/index";
 import fs from "node:fs";
 
 export default class JsonProjectStore {
