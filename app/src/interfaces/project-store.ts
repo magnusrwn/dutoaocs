@@ -1,4 +1,4 @@
-import { Project, LlmProfile} from "../entities/index"
+import { Project } from "../entities/index"
 
 export interface ProjectStore {
     exists():boolean;

@@ -1,7 +1,7 @@
 import readline from "node:readline/promises"
 import { stdin as input, stdout as output } from "node:process"
 import {getProjectName, getProjectConfigPath, getProjectDocsPath} from "../use-cases/init"
-import { Project, DocFileContext } from "../entities/index";
+import { Project } from "../entities/index";
 import { JsonProjectStore } from "../infrastructure/index";
 
 const rl:readline.Interface = readline.createInterface({ input, output });
@@ -20,15 +20,13 @@ export default async function init(userLocation:string){
         docFolderPath:newProjectDocsPath,
         docFilesContext:undefined,
         llmLinked:false,
-        llmProfile:undefined
     })
 
-    const JsonProjStore = new JsonProjectStore(newProjectConfigPath)
-    JsonProjStore.write(newProject)
+    const jsonProjStore = new JsonProjectStore(newProjectConfigPath)
+    jsonProjStore.write(newProject)
     
-    const project:Project = newProject
-    project.existingConfigFile = true
-    JsonProjStore.updateConfig(project, newProjectConfigPath)
+    newProject.existingConfigFile = true
+    jsonProjStore.write(newProject)
 
     // alert to adding llm
     console.log("Add your LLM model to begin creating/ updating documentation")
