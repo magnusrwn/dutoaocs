@@ -37,17 +37,14 @@ function testGetProjectDocsPath({
             : existingDocsFolderPath + "/docs"
 
         if (fs.existsSync(normalizedDocsFolderPath)){
-            // const docsPath = existingDocsFolderPath
             return { "ok":true, "errorNumber":-1, "errorInfo":""}
         } else {
-            // console.log(`${existingDocsFolderPath} does not exist`)
             return { "ok":false, "errorNumber":1, "errorInfo":"Custom '/docs' path does not exist. Please enter a valid path or make one"}
         }
     } else if (["no", "n"].includes(docsPathQuestion.toLocaleLowerCase())){
         // Quesiton: do you want to create a new '/docs' at your current path?
         
         if (["yes", "y"].includes(createDocsFolderQuestion.toLocaleLowerCase())){
-            // const newPath:string = userLocation + "/docs"
             return { "ok":true, "errorNumber":-1, "errorInfo":""}
 
         } else if (["no", "n"].includes(createDocsFolderQuestion.toLocaleLowerCase())){
@@ -59,12 +56,9 @@ function testGetProjectDocsPath({
             }
 
             if (fs.existsSync(customDocsFolderAddress)){
-                console.log(`found custom path ${customDocsFolderAddress}!`)
-                // const newPath = customDocsFolderAddress + "/docs"
                 return { "ok":true, "errorNumber":-1, "errorInfo":""} 
             } else {
                 // 'else' here, as usually this would loop roud with while()
-                console.log(`custom path ${customDocsFolderAddress} does not exist please try again`)
                 return { "ok":false, "errorNumber":2, "errorInfo":`custom new '/docs' path: ${customDocsFolderAddress}, does not exist`}
             }
         } else {
