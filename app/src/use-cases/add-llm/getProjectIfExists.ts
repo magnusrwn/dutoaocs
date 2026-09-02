@@ -4,8 +4,13 @@ import fs from "node:fs"
 
 export default function getProjectIfExists(path:string):Project | undefined{
     // normalise
-    if (!path.includes("dutoaocs.config.json")){
-        path += "dutoaocs.config.json"
+    console.log(path)
+    if (!path.endsWith("dutoaocs.config.json")){
+        if (path.endsWith("/")){
+            path += "dutoaocs.config.json"
+        } else {
+            path += "/dutoaocs.config.json"
+        }
     }
 
     // try read, on catch return void

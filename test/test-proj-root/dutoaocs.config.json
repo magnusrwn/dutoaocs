@@ -1,0 +1,15 @@
+{
+  "projName": "test-proj-root",
+  "existingConfigFile": true,
+  "configPath": "test/test-proj-root/dutoaocs.config.json",
+  "docFolderPath": "test/test-proj-root/docs",
+  "docFilesContext": [
+    {
+      "filePath": "test/test-proj-root/docs/msc.md",
+      "allowedContext": [
+        "summary"
+      ]
+    }
+  ],
+  "llmLinked": false
+}

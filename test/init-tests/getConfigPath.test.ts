@@ -26,26 +26,6 @@ function testGetProjectConfigPath({configPathChoice, customConfigPath, userLocat
     }
 }
 
-
-// function grabConfigPathEnding(path:string):string{
-//     /***
-//      returns the ending of the passed path, which should be 'dutoaocs.config.json'
-//      -- this is used to assert then the ending of the path is the config file
-//      -- when it cant be found, it returns a wrong string. This is why equal assert is necessary
-//      */
-//     // grab indicies to test the ending of the path (ensure it is te config file)
-//     const endingIndex:number = path.indexOf("dutoaocs.config.json") | 1
-//     const pathLength:number = path.length
-    
-//     // get the negative index to assert the end of the path is correct
-//     const negativeIndex:number = endingIndex - pathLength
-//     const pathEnding:string = path.slice(negativeIndex)
-//     return pathEnding
-// }
-
-
-
-
 // NOTE: I've created a file called 'dutoaocs.config.json' in '/test/test-proj-root'
 // these are relative to proj root. The user **should** be running/ have the config file in the root...
 // so the 'customConfigPath' and the 'userLocation' are the same here
