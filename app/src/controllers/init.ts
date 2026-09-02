@@ -18,7 +18,7 @@ export default async function init(userLocation:string){
         existingConfigFile:false,
         configPath:newProjectConfigPath,
         docFolderPath:newProjectDocsPath,
-        docFilesContext:undefined,
+        docFilesContext:[],
         llmLinked:false,
     })
 
