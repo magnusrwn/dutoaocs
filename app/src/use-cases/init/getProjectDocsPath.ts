@@ -5,17 +5,19 @@ export default async function getProjectDocsPath(userLocation:string, rl:readlin
     while (true){
         const docsPathQuestion:string = (await rl.question("do you already have a '/docs' in this proeject? (y/n): ")).toLocaleLowerCase()
         if (["yes", "y"].includes(docsPathQuestion)){
-            let preVerifieddocsPath:string = (await rl.question("where is your current '/docs' folder?: "))
-            if (preVerifieddocsPath.slice(-5) === "/docs"){
-                console.log(`${preVerifieddocsPath} must end in "/docs"`)
-                preVerifieddocsPath = (await rl.question("where is your current '/docs' folder?: "))
+            let existingDocsFolderPath:string = (await rl.question("where is your current '/docs' folder?: "))
+
+            if (existingDocsFolderPath.slice(-5) !== "/docs"){
+                existingDocsFolderPath += "/docs"
             }
-            // verify path exists
-            if (fs.existsSync(preVerifieddocsPath)){
-                const docsPath = preVerifieddocsPath
+
+            if (fs.existsSync(existingDocsFolderPath)){
+                // verify path exists
+                const docsPath = existingDocsFolderPath
                 return docsPath
             } else {
-                console.log(`${preVerifieddocsPath} does not exist`)
+                console.log(`${existingDocsFolderPath} does not exist`)
+                // go back to top
             }
 
         } else if (["no", "n"].includes(docsPathQuestion)){
@@ -29,7 +31,7 @@ export default async function getProjectDocsPath(userLocation:string, rl:readlin
                         let customDocsFolderAddress:string = (await rl.question("what adress would you like to create your docs folder at?: "))
                         // normalise the input
                         if (customDocsFolderAddress.slice(-5) === "/docs"){
-                            customDocsFolderAddress = customDocsFolderAddress.slice(-5)
+                            customDocsFolderAddress = customDocsFolderAddress.slice(0, -5)
                         }
                         // ensure path exists
                         if (fs.existsSync(customDocsFolderAddress)){
