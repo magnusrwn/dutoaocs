@@ -26,17 +26,25 @@ async function main(){
 
         case "add-doc-file":{
             addDocFile(command, userLocation)
+            break
         }
         case "rem-doc-file":{
             removeDocFile(command, userLocation)
+            break
         }
 
 
         case "add-context":{
             addContext(command, userLocation)
+            break
         }
         case "rem-context":{
             removeContext(command, userLocation)
+            break
+        }
+        default:{
+            console.log(`unknown command "${command[0] ?? ""}"`)
+            break
         }
     }
 }
