@@ -2,8 +2,8 @@ import Entity from "./entity";
 
 // builder types
 export type DocFileContext = {
-    filePath:string
-    allowedContext: Array<string> | undefined
+    docsFilePath: string
+    allowedContext: string[]
 }
 // parent type
 export type ProjectAttrs = {

@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 
 import "dotenv/config"
-import { init, addLlmLink, addLlmVerify } from "./src/controllers/index"
-
+import { init, addLlmLink, addLlmVerify, addContext, addDocFile, removeContext, removeDocFile } from "./src/controllers/index"
 
 const command:Array<string> = process.argv.slice(2)
 const userLocation:string = process.cwd()
@@ -18,9 +17,26 @@ async function main(){
             if (command.includes("--verify")){
                 await addLlmVerify(userLocation)
             }
+            
             // addition steps
             await addLlmLink(userLocation)
             break
+        }
+
+
+        case "add-doc-file":{
+            addDocFile(command, userLocation)
+        }
+        case "rem-doc-file":{
+            removeDocFile(command, userLocation)
+        }
+
+
+        case "add-context":{
+            addContext(command, userLocation)
+        }
+        case "rem-context":{
+            removeContext(command, userLocation)
         }
     }
 }
