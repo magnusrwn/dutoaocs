@@ -1,7 +1,17 @@
 #!/usr/bin/env node
 
 import "dotenv/config"
-import { init, addLlmLink, addLlmVerify, addContext, addDocFile, removeContext, removeDocFile } from "./src/controllers/index"
+import {
+    init,
+    addLlmLink,
+    addLlmVerify,
+    addContext,
+    addDocFile,
+    removeContext,
+    removeDocFile,
+    updateDocs
+} from "./src/controllers/index"
+
 
 const command:Array<string> = process.argv.slice(2)
 const userLocation:string = process.cwd()
@@ -24,6 +34,7 @@ async function main(){
         }
 
 
+        // crud doc files to project
         case "add-doc-file":{
             addDocFile(command, userLocation)
             break
@@ -33,7 +44,7 @@ async function main(){
             break
         }
 
-
+        // crud allowed context for those projects above
         case "add-context":{
             addContext(command, userLocation)
             break
@@ -42,6 +53,17 @@ async function main(){
             removeContext(command, userLocation)
             break
         }
+
+        case "update-doc":{
+            await updateDocs(command, userLocation)
+            break
+        }
+        case "update-all":{
+            // todo
+            break
+        }
+
+        // defualt resp on bad command
         default:{
             console.log(`unknown command "${command[0] ?? ""}"`)
             break
