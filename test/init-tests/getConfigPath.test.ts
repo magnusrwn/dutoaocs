@@ -1,60 +1,51 @@
 import test from "node:test"
 import assert from "node:assert"
 import fs from "node:fs"
+import path from "node:path"
+import readline from "node:readline/promises"
+import getProjectConfigPath from "../../app/src/use-cases/init/getProjectConfigPath"
 
-interface GetConfigPathTestParams{
-    configPathChoice:string,
-    customConfigPath:string,
-    userLocation:string
-}
-
-// testable version of 'getProjectConfigPath' -- removed inputs and while loops to get to core logic
-function testGetProjectConfigPath({configPathChoice, customConfigPath, userLocation}:GetConfigPathTestParams):string | undefined {
-    if (["yes", "y"].includes(configPathChoice)){
-        const configPath:string = userLocation + "dutoaocs.config.json"
-        return configPath
-    } else if (["no", "n"].includes(configPathChoice)){
-        if (fs.existsSync(customConfigPath)){
-            const configPath:string = customConfigPath + "dutoaocs.config.json"
-            return configPath
-        } else {
-            console.log(`path: ${customConfigPath} does not exist`)
+function createReadlineMock(answers:string[]):readline.Interface {
+    return {
+        question: async () => {
+            const answer = answers.shift()
+            if (answer === undefined){
+                throw new Error("No test answer available")
+            }
+            return answer
         }
-    } else {
-        console.log("please input 'yes'/'y' or 'no'/'n'")
-        return undefined
-    }
+    } as readline.Interface
 }
 
 // NOTE: I've created a file called 'dutoaocs.config.json' in '/test/test-proj-root'
 // these are relative to proj root. The user **should** be running/ have the config file in the root...
 // so the 'customConfigPath' and the 'userLocation' are the same here
-test('passes when config path (userLocation) is found, and correct', () => {
-    const testUserLocationInput:GetConfigPathTestParams = {
-        "configPathChoice":"yes", // goes throguh user location
-        "customConfigPath":"./test/test-proj-root/",
-        "userLocation":"./test/test-proj-root/"
-    }
+test('passes when config path (userLocation) is found, and correct', async () => {
+    const userLocation = path.join(".", "test", "test-proj-root")
+    const rl = createReadlineMock(["yes"])
 
-    const respUserLocaiton:string | undefined = testGetProjectConfigPath(testUserLocationInput)
-    // ensure the resp exists
-    if (!respUserLocaiton){return}
-    assert.equal(typeof respUserLocaiton, 'string');
+    const respUserLocation:string = await getProjectConfigPath(userLocation, rl)
 
-    assert.strictEqual(respUserLocaiton.endsWith("dutoaocs.config.json"), true)
+    assert.equal(typeof respUserLocation, 'string');
+    assert.strictEqual(respUserLocation, path.join(userLocation, "dutoaocs.config.json"))
 })
 
-test('passes when config path (customConfigPath) is found, and has good ending ', () => {
-    const testUserLocationInput:GetConfigPathTestParams = {
-        "configPathChoice":"no", // goes throguh custom imput
-        "customConfigPath":"./test/test-proj-root/",
-        "userLocation":"./test/test-proj-root/"
-    }
+test('passes when config path (customConfigPath) is found, and has good ending ', async () => {
+    const customConfigPath = path.join(".", "test", "test-proj-root")
+    const rl = createReadlineMock(["no", customConfigPath])
 
-    const respUserLocaiton:string | undefined = testGetProjectConfigPath(testUserLocationInput)
-    // ensure the resp exists
-    if (!respUserLocaiton){return}
-    assert.equal(typeof respUserLocaiton, 'string');
+    const respUserLocation:string = await getProjectConfigPath("unused-user-location", rl)
 
-    assert.strictEqual(respUserLocaiton.endsWith("dutoaocs.config.json"), true)
+    assert.equal(typeof respUserLocation, 'string');
+    assert.strictEqual(respUserLocation, path.join(customConfigPath, "dutoaocs.config.json"))
+})
+
+test("does not join current location and config filename without a path separator", async () => {
+    const userLocation = path.join(".", "test", "test-proj-root")
+    const rl = createReadlineMock(["y"])
+
+    const respUserLocation:string = await getProjectConfigPath(userLocation, rl)
+
+    assert.notStrictEqual(respUserLocation, `${userLocation}dutoaocs.config.json`)
+    assert.strictEqual(fs.existsSync(path.dirname(respUserLocation)), true)
 })

@@ -3,6 +3,8 @@ import { stdin as input, stdout as output } from "node:process"
 import {getProjectName, getProjectConfigPath, getProjectDocsPath} from "../use-cases/init"
 import { Project } from "../entities/index";
 import { JsonProjectStore } from "../infrastructure/index";
+import fs from "node:fs";
+import path from "node:path";
 
 const rl:readline.Interface = readline.createInterface({ input, output });
 
@@ -11,7 +13,9 @@ export default async function init(userLocation:string){
     const newProjectName = await getProjectName(rl)
     const newProjectConfigPath = await getProjectConfigPath(userLocation, rl)
     const newProjectDocsPath = await getProjectDocsPath(userLocation, rl)
-
+    if (!fs.existsSync(newProjectDocsPath) && path.dirname(newProjectDocsPath)){
+        fs.mkdirSync(newProjectDocsPath)
+    }
     // setup project/ config using json store
     const newProject:Project = new Project({
         projName:newProjectName,
@@ -32,4 +36,5 @@ export default async function init(userLocation:string){
     console.log("Add your LLM model to begin creating/ updating documentation")
     console.log("Run the command: 'dutoaocs add-llm'")
     console.log("To See all commands run 'dutoaocs --help'")
+    rl.close()
 }
