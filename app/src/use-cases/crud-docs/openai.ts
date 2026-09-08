@@ -1,6 +1,20 @@
 import OpenAI from "openai";
 
-const client = new OpenAI()
+type OpenAiClient = Pick<OpenAI, "responses">
+
+let client:OpenAiClient | undefined
+
+function getClient():OpenAiClient{
+    if (client === undefined){
+        client = new OpenAI()
+    }
+
+    return client
+}
+
+export function setOpenAiClientForTests(testClient:OpenAiClient | undefined):void{
+    client = testClient
+}
 
 export type ContextBinItem = {
     fileName: string
@@ -13,7 +27,7 @@ export type DocsResponse = {
 }
 
 export async function contextToDocs(currentDocs:string, context:Array<ContextBinItem>):Promise<DocsResponse>{
-    const response = await client.responses.create({
+    const response = await getClient().responses.create({
         model: "gpt-5.6-luna",
         input: `
             You are maintaining documentation for a small to mid-sized personal project.
