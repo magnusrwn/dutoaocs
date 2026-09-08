@@ -9,7 +9,8 @@ import {
     addDocFile,
     removeContext,
     removeDocFile,
-    updateDocs
+    updateDocs,
+    showHelp
 } from "./src/controllers/index"
 
 
@@ -18,10 +19,14 @@ const userLocation:string = process.cwd()
 
 async function main(){
     switch (command[0]){
+        case "--help":{
+            showHelp()
+        }
         case "init":{
             await init(userLocation)
             break
         }
+
         case "add-llm":{
             // verifyer func
             if (command.includes("--verify")){

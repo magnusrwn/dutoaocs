@@ -1,0 +1,20 @@
+export default function showHelp(){
+    console.log("'dutoaocs init': initialises a new dutoaocs project")
+    console.log("\n")
+    console.log("'dutoaocs add-llm': takes you through the step-by-step to add your llm API key safely")
+    console.log("\n")
+    console.log("[--verify]: verifies that llm API key, and marks it as added in toue project")
+    console.log("\n")
+    console.log("'dutoaocs add-doc-file [file/path]': guides you thorugh the process of adding an existing documentation file to the project (i.e to update using dutoaocs)")
+    console.log("\n")
+    console.log("'dutoaocs rem-doc-file [file/path]': removes the doc file that exists in the project under that handed address")
+    console.log("\n")
+    console.log("'dutoaocs add-context [doc/path] [context/path]': adds context to an existing doc in the project")
+    console.log("\n")
+    console.log("'dutoaocs rem-context [doc/path] [context/path]': removes context from am existing doc in the project")
+    console.log("\n")
+    console.log("'dutoaocs update-doc [file/path]': updates the existing doc item in project at that given path")
+    console.log("\n")
+    console.log("'dutoaocs update-all': updates all docs in the project with allowed context [work in progress]")
+}
+
