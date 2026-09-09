@@ -3,7 +3,7 @@ import test from "node:test";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import crudDocs from "../../app/src/use-cases/crud-docs/crudDocs";
+import crudDocs, { crudAllDocs } from "../../app/src/use-cases/crud-docs/crudDocs";
 import { setOpenAiClientForTests } from "../../app/src/use-cases/crud-docs/openai";
 import { Project } from "../../app/src/entities/index";
 
@@ -148,4 +148,119 @@ test("passes when missing docs do not call OpenAI", async (t) => {
     assert.strictEqual(result, false)
     assert.strictEqual(calls.length, 0)
     assert.strictEqual(fs.existsSync(docPath), false)
+})
+
+
+// for 'update-all'
+test("passes when all docs are updated with OpenAI output", async (t) => {
+    const tempDir = makeTempDir()
+    t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }))
+
+    const calls:Array<any> = []
+    const firstDocPath = path.join(tempDir, "first-docs.md")
+    const secondDocPath = path.join(tempDir, "second-docs.md")
+    const firstContextPath = path.join(tempDir, "first-context.ts")
+    const secondContextPath = path.join(tempDir, "second-context.ts")
+
+    fs.writeFileSync(firstDocPath, "# First docs")
+    fs.writeFileSync(secondDocPath, "# Second docs")
+    fs.writeFileSync(firstContextPath, "export const firstContext = true")
+    fs.writeFileSync(secondContextPath, "export const secondContext = true")
+
+    setOpenAiClientForTests({
+        responses: {
+            create: async (request:any) => {
+                calls.push(request)
+                return {
+                    output_text: JSON.stringify({
+                        updatedDocs: `# Updated docs ${calls.length}`,
+                        ambiguities: ""
+                    })
+                }
+            }
+        }
+    } as any)
+    t.after(() => setOpenAiClientForTests(undefined))
+
+    const project = new Project({
+        projName: "test-project",
+        existingConfigFile: true,
+        configPath: path.join(tempDir, "dutoaocs.config.json"),
+        docFolderPath: tempDir,
+        docFilesContext: [
+            {
+                docsFilePath: firstDocPath,
+                allowedContext: [firstContextPath]
+            },
+            {
+                docsFilePath: secondDocPath,
+                allowedContext: [secondContextPath]
+            }
+        ],
+        llmLinked: true
+    })
+
+    const result = await crudAllDocs(project)
+
+    assert.strictEqual(result, true)
+    assert.strictEqual(fs.readFileSync(firstDocPath, "utf-8"), "# Updated docs 1")
+    assert.strictEqual(fs.readFileSync(secondDocPath, "utf-8"), "# Updated docs 2")
+    assert.strictEqual(calls.length, 2)
+    assert.match(calls[0].input, /# First docs/)
+    assert.match(calls[0].input, /firstContext/)
+    assert.doesNotMatch(calls[0].input, /secondContext/)
+    assert.match(calls[1].input, /# Second docs/)
+    assert.match(calls[1].input, /secondContext/)
+    assert.doesNotMatch(calls[1].input, /firstContext/)
+})
+
+test("passes when update-all reports false if one doc is missing", async (t) => {
+    const tempDir = makeTempDir()
+    t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }))
+
+    const calls:Array<any> = []
+    const existingDocPath = path.join(tempDir, "existing-docs.md")
+    const missingDocPath = path.join(tempDir, "missing-docs.md")
+
+    fs.writeFileSync(existingDocPath, "# Existing docs")
+
+    setOpenAiClientForTests({
+        responses: {
+            create: async (request:any) => {
+                calls.push(request)
+                return {
+                    output_text: JSON.stringify({
+                        updatedDocs: "# Updated docs",
+                        ambiguities: ""
+                    })
+                }
+            }
+        }
+    } as any)
+    t.after(() => setOpenAiClientForTests(undefined))
+
+    const project = new Project({
+        projName: "test-project",
+        existingConfigFile: true,
+        configPath: path.join(tempDir, "dutoaocs.config.json"),
+        docFolderPath: tempDir,
+        docFilesContext: [
+            {
+                docsFilePath: existingDocPath,
+                allowedContext: []
+            },
+            {
+                docsFilePath: missingDocPath,
+                allowedContext: []
+            }
+        ],
+        llmLinked: true
+    })
+
+    const result = await crudAllDocs(project)
+
+    assert.strictEqual(result, false)
+    assert.strictEqual(calls.length, 1)
+    assert.strictEqual(fs.readFileSync(existingDocPath, "utf-8"), "# Updated docs")
+    assert.strictEqual(fs.existsSync(missingDocPath), false)
 })
