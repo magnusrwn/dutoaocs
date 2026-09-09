@@ -10,6 +10,7 @@ import {
     removeContext,
     removeDocFile,
     updateDocs,
+    updateAllDocs,
     showHelp
 } from "./src/controllers/index"
 
@@ -64,7 +65,7 @@ async function main(){
             break
         }
         case "update-all":{
-            // todo
+            await updateAllDocs(userLocation)
             break
         }
 

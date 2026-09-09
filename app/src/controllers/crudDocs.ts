@@ -1,6 +1,6 @@
 import { Project, DocFileContext } from "../entities";
 import { getProjectIfExists } from "../use-cases/add-llm";
-import { crudDocs } from "../use-cases/crud-docs/index";
+import { crudDocs, crudAllDocs } from "../use-cases/crud-docs/index";
 
 export async function updateDocs(command:Array<string>, userLocation:string):Promise<boolean>{
     const project:Project | undefined = getProjectIfExists(userLocation)
@@ -26,5 +26,16 @@ export async function updateDocs(command:Array<string>, userLocation:string):Pro
         } else {
             return await crudDocs(project, itemToUpdate.docsFilePath, itemToUpdate.allowedContext)
         }
+    }
+}
+
+export async function updateAllDocs(userLocation:string):Promise<boolean>{
+    const project:Project | undefined = getProjectIfExists(userLocation)
+    if (project === undefined){
+        console.log(`project not found at path ${userLocation}`)
+        console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
+        return false
+    } else {
+        return await crudAllDocs(project)
     }
 }
