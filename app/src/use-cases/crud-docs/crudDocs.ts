@@ -2,7 +2,7 @@ import fs from "node:fs"
 import { contextToDocs, ContextBinItem, DocsResponse } from "./openai";
 import { Project, DocFileContext } from "../../entities/index";
 
-export default async function crudDocs(project:Project, doc:string, contextFiles:Array<string>):Promise<boolean>{
+export async function updateOne(project:Project, doc:string, contextFiles:Array<string>):Promise<boolean>{
     const targetDoc:string = doc
     const targetDocContext = project.docFilesContext?.find(
         (docContext) => docContext.docsFilePath === targetDoc
@@ -46,12 +46,10 @@ export default async function crudDocs(project:Project, doc:string, contextFiles
         console.log("unresolved documentation questions:")
         console.log(docsResponse.ambiguities)
     }
-
     return true
-
 }
 
-export async function crudAllDocs(project:Project):Promise<boolean>{
+export async function updateAll(project:Project):Promise<boolean>{
     if (project.docFilesContext === undefined || project.docFilesContext.length === 0){
         console.log("no doc files added to your 'dutoaocs.config.json'")
         console.log("use 'dutoaocs add-doc-file file-name-here' to add doc files")
@@ -61,11 +59,17 @@ export async function crudAllDocs(project:Project):Promise<boolean>{
     let allUpdated = true
     for (let i = 0; i < project.docFilesContext.length; i++){
         const itemToUpdate: DocFileContext = project.docFilesContext[i]
-        const updated = await crudDocs(project, itemToUpdate.docsFilePath, itemToUpdate.allowedContext)
+        const updated = await updateOne(project, itemToUpdate.docsFilePath, itemToUpdate.allowedContext)
         if (!updated){
             allUpdated = false
         }
     }
-
     return allUpdated
+}
+
+export function clearAll(userLocation:string):boolean{
+    // store deleted items... can be empty
+    // print
+    // return.
+    return true
 }

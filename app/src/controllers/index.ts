@@ -3,7 +3,19 @@ import addLlmVerify from "./addLlmVerify";
 import addLlmLink from "./addLlmLink";
 import { addContext, removeContext } from "./crudContext";
 import { addDocFile, removeDocFile } from "./crudDocFile";
-import { updateDocs, updateAllDocs } from "./crudDocs"
+import { updateDocs, updateAllDocs, clearDocs } from "./crudDocs"
 import showHelp from "./help";
 
-export {init, addLlmLink, addLlmVerify, addContext, addDocFile, removeContext, removeDocFile, updateDocs, updateAllDocs, showHelp }
+export {
+    init,
+    addLlmLink,
+    addLlmVerify,
+    addContext,
+    addDocFile,
+    removeContext,
+    removeDocFile,
+    updateDocs,
+    updateAllDocs,
+    showHelp,
+    clearDocs
+}
