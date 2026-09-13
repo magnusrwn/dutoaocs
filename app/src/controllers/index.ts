@@ -3,7 +3,7 @@ import addLlmVerify from "./addLlmVerify";
 import addLlmLink from "./addLlmLink";
 import { addContext, removeContext } from "./crudContext";
 import { addDocFile, removeDocFile } from "./crudDocFile";
-import { updateDocs, updateAllDocs, clearDocs } from "./crudDocs"
+import { updateDocs, updateAllDocs, clearDeadAllDocs, clearDeadAllContext } from "./crudDocs"
 import showHelp from "./help";
 
 export {
@@ -17,5 +17,6 @@ export {
     updateDocs,
     updateAllDocs,
     showHelp,
-    clearDocs
+    clearDeadAllDocs,
+    clearDeadAllContext
 }

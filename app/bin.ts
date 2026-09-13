@@ -12,7 +12,8 @@ import {
     updateDocs,
     updateAllDocs,
     showHelp,
-    clearDocs
+    clearDeadAllDocs,
+    clearDeadAllContext
 } from "./src/controllers/index"
 
 
@@ -51,7 +52,7 @@ async function main(){
             break
         }
         case "clear-docs":{
-            clearDocs(userLocation)
+            clearDeadAllDocs(userLocation)
             break
         }
 
@@ -65,7 +66,7 @@ async function main(){
             break
         }
         case "clear-context":{
-            // clears dead all context, and outputs string of deleted
+            clearDeadAllContext(userLocation)
             break
         }
 

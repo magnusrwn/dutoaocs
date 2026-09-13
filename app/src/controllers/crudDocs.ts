@@ -40,7 +40,7 @@ export async function updateAllDocs(userLocation:string):Promise<boolean>{
     }
 }
 
-export function clearAllDocs(userLocation:string):boolean{
+export function clearDeadAllDocs(userLocation:string):boolean{
     // check for project
     const project:Project | undefined = getProjectIfExists(userLocation)
     if (project === undefined){
@@ -48,9 +48,18 @@ export function clearAllDocs(userLocation:string):boolean{
         console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
         return false
     } else{
-        project.docFilesContext ??= []
-        clearAll(userLocation)
-        return true
+        return clearAll(project, "docs")
     }
 }
 
+export function clearDeadAllContext(userLocation:string):boolean{
+    // check for project
+    const project:Project | undefined = getProjectIfExists(userLocation)
+    if (project === undefined){
+        console.log(`project not found at path ${userLocation}`)
+        console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
+        return false
+    } else{
+        return clearAll(project, "context")
+    }
+}
