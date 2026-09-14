@@ -1,4 +1,9 @@
-import crudDocs, { crudAllDocs } from "./crudDocs";
+import { updateOne, updateAll, clearAll } from "./crudDocs";
 import { contextToDocs } from "./openai"
 
-export { crudDocs, crudAllDocs, contextToDocs }
+export {
+    updateOne,
+    updateAll,
+    contextToDocs,
+    clearAll
+}

@@ -11,7 +11,9 @@ import {
     removeDocFile,
     updateDocs,
     updateAllDocs,
-    showHelp
+    showHelp,
+    clearDeadAllDocs,
+    clearDeadAllContext
 } from "./src/controllers/index"
 
 
@@ -49,6 +51,10 @@ async function main(){
             removeDocFile(command, userLocation)
             break
         }
+        case "clear-docs":{
+            clearDeadAllDocs(userLocation)
+            break
+        }
 
         // crud allowed context for those projects above
         case "add-context":{
@@ -59,7 +65,12 @@ async function main(){
             removeContext(command, userLocation)
             break
         }
+        case "clear-context":{
+            clearDeadAllContext(userLocation)
+            break
+        }
 
+        // updaters
         case "update-doc":{
             await updateDocs(command, userLocation)
             break
@@ -68,6 +79,7 @@ async function main(){
             await updateAllDocs(userLocation)
             break
         }
+
 
         // defualt resp on bad command
         default:{

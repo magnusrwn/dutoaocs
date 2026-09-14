@@ -1,8 +1,11 @@
 import fs from "node:fs"
 import { contextToDocs, ContextBinItem, DocsResponse } from "./openai";
 import { Project, DocFileContext } from "../../entities/index";
+import { JsonProjectStore } from "../../infrastructure";
+import { promiseHooks } from "node:v8";
+import { prototype } from "node:events";
 
-export default async function crudDocs(project:Project, doc:string, contextFiles:Array<string>):Promise<boolean>{
+export async function updateOne(project:Project, doc:string, contextFiles:Array<string>):Promise<boolean>{
     const targetDoc:string = doc
     const targetDocContext = project.docFilesContext?.find(
         (docContext) => docContext.docsFilePath === targetDoc
@@ -46,12 +49,10 @@ export default async function crudDocs(project:Project, doc:string, contextFiles
         console.log("unresolved documentation questions:")
         console.log(docsResponse.ambiguities)
     }
-
     return true
-
 }
 
-export async function crudAllDocs(project:Project):Promise<boolean>{
+export async function updateAll(project:Project):Promise<boolean>{
     if (project.docFilesContext === undefined || project.docFilesContext.length === 0){
         console.log("no doc files added to your 'dutoaocs.config.json'")
         console.log("use 'dutoaocs add-doc-file file-name-here' to add doc files")
@@ -61,11 +62,50 @@ export async function crudAllDocs(project:Project):Promise<boolean>{
     let allUpdated = true
     for (let i = 0; i < project.docFilesContext.length; i++){
         const itemToUpdate: DocFileContext = project.docFilesContext[i]
-        const updated = await crudDocs(project, itemToUpdate.docsFilePath, itemToUpdate.allowedContext)
+        const updated = await updateOne(project, itemToUpdate.docsFilePath, itemToUpdate.allowedContext)
         if (!updated){
             allUpdated = false
         }
     }
-
     return allUpdated
+}
+
+export function clearAll(project:Project, type:"docs" | "context"):boolean{
+    const jsonStore:JsonProjectStore = new JsonProjectStore(project.configPath)
+    const removed:Array<string> = []
+
+    if(project.docFilesContext === undefined || project.docFilesContext.length === 0){
+        console.log("no doc files found in your 'dutoaocs.config.json'")
+        console.log("use 'dutoaocs add-doc-file file-name-here' to add doc files")
+        return false
+    } else if (type === "docs"){
+        for (let i = 0; i < project.docFilesContext.length; i++){
+            let itterItem:DocFileContext = project.docFilesContext[i]
+            if(!fs.existsSync(itterItem.docsFilePath)){
+                // delete the item when it does not exist
+                project.docFilesContext.splice(i, 1)
+                removed.push(project.docFilesContext[i].docsFilePath)
+            }
+        }
+
+    } else {
+        for (let i = 0; i < project.docFilesContext.length; i++){
+            if (project.docFilesContext[i].allowedContext){
+                for (let j = 0; j < project.docFilesContext[i].allowedContext.length; j++){
+                    let itterItem = project.docFilesContext[i].allowedContext[j]
+                    if(!fs.existsSync(itterItem)){
+                        // delete the item when it does not exist
+                        project.docFilesContext[i].allowedContext.splice(j, 1)
+                        removed.push(project.docFilesContext[i].allowedContext[j])
+                    }
+                }
+            } 
+        }
+    }
+    
+    // update the project
+    jsonStore.write(project)
+    console.log(`removed ${type}: ${removed}`)
+    console.log('blank if none')
+    return true
 }
