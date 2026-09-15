@@ -24,12 +24,12 @@ async function main(){
     switch (command[0]){
         case "--help":{
             showHelp()
+            break
         }
         case "init":{
             await init(userLocation)
             break
         }
-
         case "add-llm":{
             // verifyer func
             if (command.includes("--verify")){
