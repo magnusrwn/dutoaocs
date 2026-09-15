@@ -3,7 +3,7 @@ import test from "node:test";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import crudDocs from "../../app/src/use-cases/crud-docs/crudDocs";
+import { updateOne, updateAll, clearAll } from "../../app/src/use-cases/crud-docs/crudDocs"; // FIX
 import { setOpenAiClientForTests } from "../../app/src/use-cases/crud-docs/openai";
 import { Project } from "../../app/src/entities/index";
 
@@ -66,7 +66,7 @@ test("passes when docs are updated with OpenAI output", async (t) => {
         [contextPath, unusedContextPath]
     )
 
-    const result = await crudDocs(project, docPath, [contextPath])
+    const result = await updateOne(project, docPath, [contextPath])
 
     assert.strictEqual(result, true)
     assert.strictEqual(fs.readFileSync(docPath, "utf-8"), "# Updated docs")
@@ -108,7 +108,7 @@ test("passes when unconfigured docs do not call OpenAI", async (t) => {
         llmLinked: true
     })
 
-    const result = await crudDocs(project, docPath, [])
+    const result = await updateOne(project, docPath, [])
 
     assert.strictEqual(result, false)
     assert.strictEqual(calls.length, 0)
@@ -143,9 +143,208 @@ test("passes when missing docs do not call OpenAI", async (t) => {
         []
     )
 
-    const result = await crudDocs(project, docPath, [])
+    const result = await updateOne(project, docPath, [])
 
     assert.strictEqual(result, false)
     assert.strictEqual(calls.length, 0)
     assert.strictEqual(fs.existsSync(docPath), false)
+})
+
+
+// for 'update-all'
+test("passes when all docs are updated with OpenAI output", async (t) => {
+    const tempDir = makeTempDir()
+    t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }))
+
+    const calls:Array<any> = []
+    const firstDocPath = path.join(tempDir, "first-docs.md")
+    const secondDocPath = path.join(tempDir, "second-docs.md")
+    const firstContextPath = path.join(tempDir, "first-context.ts")
+    const secondContextPath = path.join(tempDir, "second-context.ts")
+
+    fs.writeFileSync(firstDocPath, "# First docs")
+    fs.writeFileSync(secondDocPath, "# Second docs")
+    fs.writeFileSync(firstContextPath, "export const firstContext = true")
+    fs.writeFileSync(secondContextPath, "export const secondContext = true")
+
+    setOpenAiClientForTests({
+        responses: {
+            create: async (request:any) => {
+                calls.push(request)
+                return {
+                    output_text: JSON.stringify({
+                        updatedDocs: `# Updated docs ${calls.length}`,
+                        ambiguities: ""
+                    })
+                }
+            }
+        }
+    } as any)
+    t.after(() => setOpenAiClientForTests(undefined))
+
+    const project = new Project({
+        projName: "test-project",
+        existingConfigFile: true,
+        configPath: path.join(tempDir, "dutoaocs.config.json"),
+        docFolderPath: tempDir,
+        docFilesContext: [
+            {
+                docsFilePath: firstDocPath,
+                allowedContext: [firstContextPath]
+            },
+            {
+                docsFilePath: secondDocPath,
+                allowedContext: [secondContextPath]
+            }
+        ],
+        llmLinked: true
+    })
+
+    const result = await updateAll(project)
+
+    assert.strictEqual(result, true)
+    assert.strictEqual(fs.readFileSync(firstDocPath, "utf-8"), "# Updated docs 1")
+    assert.strictEqual(fs.readFileSync(secondDocPath, "utf-8"), "# Updated docs 2")
+    assert.strictEqual(calls.length, 2)
+    assert.match(calls[0].input, /# First docs/)
+    assert.match(calls[0].input, /firstContext/)
+    assert.doesNotMatch(calls[0].input, /secondContext/)
+    assert.match(calls[1].input, /# Second docs/)
+    assert.match(calls[1].input, /secondContext/)
+    assert.doesNotMatch(calls[1].input, /firstContext/)
+})
+
+test("passes when update-all reports false if one doc is missing", async (t) => {
+    const tempDir = makeTempDir()
+    t.after(() => fs.rmSync(tempDir, { recursive: true, force: true }))
+
+    const calls:Array<any> = []
+    const existingDocPath = path.join(tempDir, "existing-docs.md")
+    const missingDocPath = path.join(tempDir, "missing-docs.md")
+
+    fs.writeFileSync(existingDocPath, "# Existing docs")
+
+    setOpenAiClientForTests({
+        responses: {
+            create: async (request:any) => {
+                calls.push(request)
+                return {
+                    output_text: JSON.stringify({
+                        updatedDocs: "# Updated docs",
+                        ambiguities: ""
+                    })
+                }
+            }
+        }
+    } as any)
+    t.after(() => setOpenAiClientForTests(undefined))
+
+    const project = new Project({
+        projName: "test-project",
+        existingConfigFile: true,
+        configPath: path.join(tempDir, "dutoaocs.config.json"),
+        docFolderPath: tempDir,
+        docFilesContext: [
+            {
+                docsFilePath: existingDocPath,
+                allowedContext: []
+            },
+            {
+                docsFilePath: missingDocPath,
+                allowedContext: []
+            }
+        ],
+        llmLinked: true
+    })
+
+    const result = await updateAll(project)
+
+    assert.strictEqual(result, false)
+    assert.strictEqual(calls.length, 1)
+    assert.strictEqual(fs.readFileSync(existingDocPath, "utf-8"), "# Updated docs")
+    assert.strictEqual(fs.existsSync(missingDocPath), false)
+})
+
+
+test('passes when clear all (with type == context) returns true', (t)=>{
+    const tempDir = makeTempDir()
+    t.after(() => fs.rmSync(tempDir, { recursive:true, force:true }))
+
+    // make temp files
+    const doc1Path = path.join(tempDir, "docs1.md")
+    const doc2Path = path.join(tempDir, "docs2.md")
+    const contextPath = path.join(tempDir, "context.ts")
+    const unusedContextPath = path.join(tempDir, "unused.ts")
+        
+    fs.writeFileSync(doc1Path, "# temp docs")
+    fs.writeFileSync(doc2Path, "# temp docs")
+    fs.writeFileSync(contextPath, "# temp context file")
+    
+    // make temp proejct
+    const tempProject:Project = new Project({
+        projName: "temp-project",
+        existingConfigFile: true,
+        configPath: path.join(tempDir, "dutoaocs.config.json"),
+        docFolderPath: tempDir,
+        docFilesContext: [
+            {
+                docsFilePath: doc1Path,
+                allowedContext: [contextPath]
+            },
+            {
+                docsFilePath: doc2Path,
+                // file below never written, and caught in err
+                allowedContext: [unusedContextPath]
+            }
+        ],
+        llmLinked: true
+    })
+
+    const result = clearAll(tempProject, "context")
+
+    // console.log(result.message)
+    assert.ok(result.message)
+    assert.strictEqual(result.message.includes("unused"), true)
+    assert.strictEqual(result.ok, true)
+})
+
+
+test('passes when clear all (with type == docs) returns true', (t)=>{
+    const tempDir = makeTempDir()
+    t.after(() => fs.rmSync(tempDir, { recursive:true, force:true }))
+
+    // make temp files
+    const doc1Path = path.join(tempDir, "docs1.md")
+    const doc2Path = path.join(tempDir, "docs2.md")
+    const contextPath = path.join(tempDir, "context.ts")
+        
+    fs.writeFileSync(doc1Path, "# temp docs")
+    fs.writeFileSync(contextPath, "# temp context file")
+    
+    // make temp proejct
+    const tempProject:Project = new Project({
+        projName: "temp-project",
+        existingConfigFile: true,
+        configPath: path.join(tempDir, "dutoaocs.config.json"),
+        docFolderPath: tempDir,
+        docFilesContext: [
+            {
+                docsFilePath: doc1Path,
+                allowedContext: [contextPath]
+            },
+            {
+                // file below never written, and caught in err
+                docsFilePath: doc2Path,
+                allowedContext: [contextPath]
+            }
+        ],
+        llmLinked: true
+    })
+
+    const result = clearAll(tempProject, "docs")
+
+    // console.log(result.message)
+    assert.ok(result.message)
+    assert.strictEqual(result.message.includes("docs2"), true)
+    assert.strictEqual(result.ok, true)
 })
