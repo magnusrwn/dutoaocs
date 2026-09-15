@@ -1,1 +1,1 @@
-{"projName":"da","existingConfigFile":true,"configPath":"/Users/magnusnewton/Desktop/code/dutoaocs/dutoaocs.config.json","docFolderPath":"/Users/magnusnewton/Desktop/code/dutoaocs/docs","docFilesContext":[{"docsFilePath":"docs/commands.md","allowedContext":[]}],"llmLinked":false}
+{"projName":"da","existingConfigFile":true,"configPath":"/Users/magnusnewton/Desktop/code/dutoaocs/dutoaocs.config.json","docFolderPath":"/Users/magnusnewton/Desktop/code/dutoaocs/docs","docFilesContext":[{"docsFilePath":"docs/commands.md","allowedContext":["app/bin.ts"]}],"llmLinked":false}
