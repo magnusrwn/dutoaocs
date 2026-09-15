@@ -48,7 +48,9 @@ export function clearDeadAllDocs(userLocation:string):boolean{
         console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
         return false
     } else{
-        return clearAll(project, "docs")
+        const result =  clearAll(project, "docs")
+        console.log(result.message)
+        return result.ok
     }
 }
 
@@ -60,6 +62,8 @@ export function clearDeadAllContext(userLocation:string):boolean{
         console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
         return false
     } else{
-        return clearAll(project, "context")
+        const result = clearAll(project, "context")
+        console.log(result.message)
+        return result.ok
     }
 }
