@@ -108,3 +108,27 @@ export function clearAll(project:Project, type:"docs" | "context"):ClearAllOtp{
     const message = (`removed ${type}: ${removed}`)
     return {"ok":true, "message": message ? message : 'blank if none'}
 }
+
+// check json store for methods for reading... before re-writing
+export function listContext(project:Project, docFile:string):Array<string>{
+    if (!project.docFilesContext){
+        return [""]
+    }
+
+    for (const docFileContext of project.docFilesContext){
+        if (docFileContext.docsFilePath === docFile){
+            return [...docFileContext.allowedContext]
+        }
+    }
+    return [""]
+}
+
+export function listDocs(project:Project):Array<string>{
+    if (!project.docFilesContext){
+        return [""]
+    }
+
+    return project.docFilesContext.map(
+        (docFileContext) => docFileContext.docsFilePath
+    )
+}
