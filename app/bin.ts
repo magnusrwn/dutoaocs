@@ -13,7 +13,8 @@ import {
     updateAllDocs,
     showHelp,
     clearDeadAllDocs,
-    clearDeadAllContext
+    clearDeadAllContext,
+    listItems
 } from "./src/controllers/index"
 
 
@@ -42,7 +43,7 @@ async function main(){
         }
 
 
-        // crud doc files to project
+        // crud doc files
         case "add-doc-file":{
             addDocFile(command, userLocation)
             break
@@ -55,8 +56,12 @@ async function main(){
             clearDeadAllDocs(userLocation)
             break
         }
+        case "list-docs":{
+            listItems(userLocation, "docs", "")
+            break
+        }
 
-        // crud allowed context for those projects above
+        // crud context
         case "add-context":{
             addContext(command, userLocation)
             break
@@ -69,6 +74,10 @@ async function main(){
             clearDeadAllContext(userLocation)
             break
         }
+        case "list-context":{
+            listItems(userLocation, "context", command[1] ?? "")
+            break
+        }
 
         // updaters
         case "update-doc":{
@@ -79,7 +88,6 @@ async function main(){
             await updateAllDocs(userLocation)
             break
         }
-
 
         // defualt resp on bad command
         default:{

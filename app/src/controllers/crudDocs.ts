@@ -1,6 +1,6 @@
 import { Project, DocFileContext } from "../entities";
 import { getProjectIfExists } from "../use-cases/add-llm";
-import { updateOne, updateAll, clearAll } from "../use-cases/crud-docs/index";
+import { updateOne, updateAll, clearAll, listContext, listDocs} from "../use-cases/crud-docs/index";
 
 export async function updateDocs(command:Array<string>, userLocation:string):Promise<boolean>{
     const project:Project | undefined = getProjectIfExists(userLocation)
@@ -65,5 +65,35 @@ export function clearDeadAllContext(userLocation:string):boolean{
         const result = clearAll(project, "context")
         console.log(result.message)
         return result.ok
+    }
+}
+
+
+export function listItems(userLocation:string, type:"context"|"docs", docFile:string):boolean{
+    let readItems:Array<string> = []
+    const project: Project | undefined = getProjectIfExists(userLocation)
+    if (project === undefined){
+        console.log(`project not found at path ${userLocation}`)
+        console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
+        return false
+    }
+    else{
+        if(type === "context"){
+            readItems = listContext(project, docFile)
+            console.log(`found context for ${docFile}:`)
+        } else{
+            console.log("found docs in project:")
+            readItems = listDocs(project)
+        }
+
+        if (readItems.length === 0){
+            console.log(`no doc found for address ${docFile}`)
+        } else {
+            for (const item of readItems){
+                console.log(item)
+            }
+        }
+
+        return true
     }
 }
