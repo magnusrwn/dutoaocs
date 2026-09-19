@@ -3,7 +3,7 @@ import test from "node:test";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { updateOne, updateAll, clearAll } from "../../app/src/use-cases/crud-docs/crudDocs"; // FIX
+import { updateOne, updateAll, clearAll, listContext, listDocs } from "../../app/src/use-cases/crud-docs/crudDocs";
 import { setOpenAiClientForTests } from "../../app/src/use-cases/crud-docs/openai";
 import { Project } from "../../app/src/entities/index";
 
@@ -348,3 +348,32 @@ test('passes when clear all (with type == docs) returns true', (t)=>{
     assert.strictEqual(result.message.includes("docs2"), true)
     assert.strictEqual(result.ok, true)
 })
+
+test('passes when "dutoaocs list-docs" and "dutoaocs list-context" returns ok by showing output', (t)=> {
+    const tempDir = makeTempDir()
+    t.after(()=> fs.rmSync(tempDir, { recursive:true, force:true}))
+
+    const docPath = path.join(tempDir, 'doc.md')
+    const contextPath = path.join(tempDir, 'context.ts')
+
+    fs.writeFileSync(docPath, "# doc path")
+    fs.writeFileSync(docPath, "context")
+
+    const tempProject:Project = new Project({
+        projName:"mock-proj",
+        existingConfigFile:true,
+        configPath:path.join(tempDir, 'dutoaocs.config.json'),
+        docFolderPath: tempDir,
+        docFilesContext:[
+            {
+                docsFilePath:docPath,
+                allowedContext:[contextPath]
+            },
+        ],
+        llmLinked:true
+    })
+
+    assert.ok(listDocs(tempProject))
+    assert.ok(listContext(tempProject, docPath))
+})
+
