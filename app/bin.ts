@@ -71,7 +71,7 @@ async function main(){
             break
         }
         case "clear-context":{
-            clearDeadAllContext(userLocation)
+            clearDeadAllContext(userLocation, command[1] ?? "")
             break
         }
         case "list-context":{

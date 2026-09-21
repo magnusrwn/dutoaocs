@@ -16,5 +16,13 @@ export default function showHelp(){
     console.log("'dutoaocs update-doc [file/path]': updates the existing doc item in project at that given path")
     console.log("\n")
     console.log("'dutoaocs update-all': updates all docs in the project with allowed context [work in progress]")
+    console.log("\n")
+    console.log("'dutoaocs clear-docs':")
+    console.log("\n")
+    console.log("'dutoaocs clear-context': clears all redundancies in current context for a specific doc file")
+    console.log("\n")
+    console.log("'dutoaocs list-context [path/to/doc/file]': lists all context from a given doc file")
+    console.log("\n")
+    console.log("'dutoaocs list-docs': lists all docs in the current project")
 }
 
