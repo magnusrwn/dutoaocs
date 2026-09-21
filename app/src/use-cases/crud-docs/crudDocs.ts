@@ -71,7 +71,7 @@ interface ClearAllOtp {
     ok: boolean
     message: string
 }
-export function clearAll(project:Project, docFile:string, type:"docs" | "context"):ClearAllOtp{
+export function clearAll(project:Project, type:"docs" | "context"):ClearAllOtp{
     const jsonStore:JsonProjectStore = new JsonProjectStore(project.configPath)
     const removed:Array<string> = []
     
@@ -89,12 +89,6 @@ export function clearAll(project:Project, docFile:string, type:"docs" | "context
         }
 
     } else {
-        // type == context: thus docFile passed/ should be
-        if(!fs.existsSync(docFile)){
-            console.log(`file ${docFile} does not exist in project context`)
-            let message = `file ${docFile} does not exist in project context`
-            return {"ok":false, "message": message ? message : ''}
-        }
         for (let i = 0; i < project.docFilesContext.length; i++){
             if (project.docFilesContext[i].allowedContext){
                 for (let j = 0; j < project.docFilesContext[i].allowedContext.length; j++){
