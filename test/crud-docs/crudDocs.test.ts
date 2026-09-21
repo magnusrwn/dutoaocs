@@ -265,7 +265,7 @@ test("passes when update-all reports false if one doc is missing", async (t) => 
     assert.strictEqual(fs.existsSync(missingDocPath), false)
 })
 
-
+// REFACTOR FOR PASS
 test('passes when clear all (with type == context) returns true', (t)=>{
     const tempDir = makeTempDir()
     t.after(() => fs.rmSync(tempDir, { recursive:true, force:true }))
@@ -300,7 +300,7 @@ test('passes when clear all (with type == context) returns true', (t)=>{
         llmLinked: true
     })
 
-    const result = clearAll(tempProject, "context")
+    const result = clearAll(tempProject, "", "context") // pass in context
 
     // console.log(result.message)
     assert.ok(result.message)
@@ -341,7 +341,7 @@ test('passes when clear all (with type == docs) returns true', (t)=>{
         llmLinked: true
     })
 
-    const result = clearAll(tempProject, "docs")
+    const result = clearAll(tempProject, "", "docs") // no context as is docs
 
     // console.log(result.message)
     assert.ok(result.message)
