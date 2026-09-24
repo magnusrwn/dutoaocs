@@ -6,7 +6,7 @@ Current verdict: **not ready to publish yet**. The package is close, but the bui
 
 ## Must do before publishing
 
-- [ ] Add `typescript` to `devDependencies` and refresh `package-lock.json`. The `build` script calls `tsc`, but a clean install does not currently provide it.
+- [x] Add `typescript` to `devDependencies` and refresh `package-lock.json`. The `build` script calls `tsc`, but a clean install does not currently provide it.
 - [ ] Make publishing build from a clean output directory (for example, a `clean` script plus `prepack: "npm run clean && npm run build"`). `app/dist` contains stale and duplicate output, including `app/dist/app/src/**` and files that no longer exist in source.
 - [ ] Rebuild and smoke-test the actual packaged executable. The current `app/dist/bin.js --help` output is older than `app/src/controllers/help.ts`, proving that the shipped CLI is stale.
 - [ ] Fix `.gitignore` verification in `verifyGitignore.ts`. It concatenates `currentpath + ".gitignore"`; because the CLI passes a path without a trailing slash, it looks beside the project directory instead of inside it. Use `path.join(currentpath, ".gitignore")` and add a regression test.
