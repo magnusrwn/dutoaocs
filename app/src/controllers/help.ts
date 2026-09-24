@@ -1,27 +1,47 @@
 export default function showHelp(){
-    console.log("'dutoaocs init': initialises a new dutoaocs project")
-    console.log("\n")
-    console.log("'dutoaocs add-llm': takes you through the step-by-step to add your llm API key safely")
-    console.log("\n")
-    console.log("[--verify]: verifies that llm API key, and marks it as added in toue project")
-    console.log("\n")
-    console.log("'dutoaocs add-doc-file [file/path]': guides you thorugh the process of adding an existing documentation file to the project (i.e to update using dutoaocs)")
-    console.log("\n")
-    console.log("'dutoaocs rem-doc-file [file/path]': removes the doc file that exists in the project under that handed address")
-    console.log("\n")
-    console.log("'dutoaocs clear-docs': removes all doc files from the project that no longer exist")
-    console.log("\n")
-    console.log("'dutoaocs list-docs': lists all doc files in the project")
-    console.log("\n")
-    console.log("'dutoaocs add-context [doc/path] [context/path]': adds context to an existing doc in the project")
-    console.log("\n")
-    console.log("'dutoaocs rem-context [doc/path] [context/path]': removes context from am existing doc in the project")
-    console.log("\n")
-    console.log("'dutoaocs clear-context': removes all context files from the project that no longer exist")
-    console.log("\n")
-    console.log("'dutoaocs list-context [doc/path]': lists all context files for the given doc, or all context files when no doc path is provided")
-    console.log("\n")
-    console.log("'dutoaocs update-doc [file/path]': updates the existing doc item in project at that given path")
-    console.log("\n")
-    console.log("'dutoaocs update-all': updates all docs in the project with allowed context [work in progress]")
+    console.log(`Usage: dutoaocs <command> [arguments]
+
+Commands:
+  init
+    Initialise a new dutoaocs project in the current directory.
+
+  add-llm
+    Show the steps for safely adding an LLM API key to the project.
+
+  add-llm --verify
+    Verify the LLM API key setup and mark it as linked in the project.
+
+  add-doc-file <doc-path>
+    Add an existing documentation file to the project.
+
+  rem-doc-file <doc-path>
+    Remove a documentation file from the project configuration.
+
+  clear-docs
+    Remove documentation files from the configuration when they no longer exist.
+
+  list-docs
+    List all documentation files in the project.
+
+  add-context <doc-path> <context-path>
+    Add a context file to an existing documentation file.
+
+  rem-context <doc-path> <context-path>
+    Remove a context file from an existing documentation file.
+
+  clear-context
+    Remove context files from the configuration when they no longer exist.
+
+  list-context [doc-path]
+    List context files for one documentation file, or all context files when no
+    documentation path is provided.
+
+  update-doc <doc-path>
+    Update one documentation file using its allowed context.
+
+  update-all
+    Update all documentation files using their allowed context.
+
+  --help
+    Show this help message.`)
 }
