@@ -28,6 +28,10 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "openai": "^7.5.0",
-    "typescript":"v4.23.12",
-  }
+    "typescript":"v4.23.12"
+  },
+  "files": [
+    "app/",
+    "docs/"
+  ]
 }
