@@ -1,8 +1,9 @@
 import fs from "node:fs"
 import rollbackDotenv from "./rollbackDotenv"
+import path from "node:path"
 
 export default function verifyGitignore(currentpath:string):boolean{
-    if (!fs.existsSync(currentpath+".gitignore")){
+    if (!fs.existsSync(path.join(currentpath, ".gitignore"))){
         console.log("Can not find .gitignore")
         console.log("Make sure '.gitignore' is in your project root")
         console.log("Make sure you are located in your project root ")
