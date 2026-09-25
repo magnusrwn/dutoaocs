@@ -1,6 +1,6 @@
 {
   "name": "dutoaocs",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Auto documentation for small personal projects",
   "homepage": "https://github.com/magnusrwn/dutoaocs#readme",
   "bugs": {
@@ -11,6 +11,9 @@
     "url": "git+https://github.com/magnusrwn/dutoaocs.git"
   },
   "license": "MIT",
+  "engines": {
+    "node": ">22.0.0"
+  },
   "author": "magnusrwn",
   "type": "commonjs",
   "scripts": {
