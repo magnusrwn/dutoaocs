@@ -14,7 +14,9 @@
   "author": "magnusrwn",
   "type": "commonjs",
   "scripts": {
+    "clean":"rm -rf app/dist",
     "build": "tsc",
+    "prepack":"npm run clean && npm run build",
     "test": "tsx --test",
     "dev": "tsx app/bin.ts"
   },
