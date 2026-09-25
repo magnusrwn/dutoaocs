@@ -4,7 +4,7 @@ type OpenAiClient = Pick<OpenAI, "responses">
 
 let client:OpenAiClient | undefined
 
-function getClient():OpenAiClient{
+export function getClient():OpenAiClient{
     if (client === undefined){
         client = new OpenAI()
     }
