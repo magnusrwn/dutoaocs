@@ -300,7 +300,7 @@ test('passes when clear all (with type == context) returns true', (t)=>{
         llmLinked: true
     })
 
-    const result = clearAll(tempProject, "", "context") // pass in context
+    const result = clearAll(tempProject, "context") // pass in context
 
     // console.log(result.message)
     assert.ok(result.message)
@@ -341,7 +341,7 @@ test('passes when clear all (with type == docs) returns true', (t)=>{
         llmLinked: true
     })
 
-    const result = clearAll(tempProject, "", "docs") // no context as is docs
+    const result = clearAll(tempProject, "docs") // no context as is docs
 
     // console.log(result.message)
     assert.ok(result.message)

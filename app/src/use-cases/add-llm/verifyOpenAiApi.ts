@@ -1,9 +1,10 @@
 import OpenAI from "openai";
 import rollbackDotenv from "./rollbackDotenv";
+import { getClient } from "../crud-docs/openai";
 
 
 export default async function verifyOpenAiApi(): Promise<boolean> {
-  const client = new OpenAI();
+  const client = getClient()
   try{
     await client.responses.create({
       model: "gpt-5.4-mini",
