@@ -25,12 +25,12 @@
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
-    "tsx": "^4.20.5"
+    "tsx": "^4.20.5",
+    "typescript":"^5.0.0"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
-    "openai": "^7.5.0",
-    "typescript":"v4.23.12"
+    "openai": "^7.5.0"
   },
   "files": [
     "app/",
