@@ -17,9 +17,9 @@
   "author": "magnusrwn",
   "type": "commonjs",
   "scripts": {
-    "clean":"rm -rf app/dist",
+    "clean": "rm -rf app/dist",
     "build": "tsc",
-    "prepack":"npm run clean && npm run build",
+    "prepack": "npm run clean && npm run build",
     "test": "tsx --test",
     "dev": "tsx app/bin.ts"
   },
@@ -29,10 +29,11 @@
   "devDependencies": {
     "@types/node": "^26.2.0",
     "tsx": "^4.20.5",
-    "typescript":"^5.0.0"
+    "typescript": "^5.0.0"
   },
   "dependencies": {
     "dotenv": "^17.4.2",
+    "dutoaocs": "^0.1.0",
     "openai": "^7.5.0"
   },
   "files": [

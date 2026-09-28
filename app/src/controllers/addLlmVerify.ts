@@ -12,7 +12,7 @@ export default async function addLlmVerify(currentpath:string){
     }
 
     // verify .gitignore
-    if(!verifyGitignore(currentpath)){return}
+    if(!verifyGitignore(currentpath).ok){return}
 
     // verify .env
     if(!verifyDotenv()){return}
