@@ -1,10 +1,16 @@
 # Welcome to Dutoaocs.
 
-### To be noted:
-  - This project is very-mostly hand coded. Reasons being: Solidify my TypeScript, and to fully understand/ learn the architecture of npm/cli apps, and practice what is just pure logic mentally (one singular api request, the rest is essentially flow)
-    - Thus, progress and revisions will take longer, and there may be more typos (which will be cleaned by the end/ periodically)
+### Overview:
+  - Dutoaocs is a free npm package designed to aid in the maintenance and creation of your projects documentation.
+  - Dutoaocs differs from repeatedly querying ai by allowing documentation to have scope, and have that scope persist over project iterations. This allows for robust, lean, and informative documentation to be prompted, without worry for repeat, or overreach from explored context.
+  - Dutoaocs also gives feedback on ambiguities to improve updated documentation to improve its answers in further iterations. For example, this could mean adding 'x' file in the project as context for 'y' doc file.
+  - Dutoaocs also carries of existing llm subscriptions. Currently with Open-AI support, and looking to iterate to include claude.
+
+### To Get Started:
+**Run** `npm i dutoaocs` -> `dutoaocs init` -> follow the steps -> `dutoaocs --help` to see commands.
 
 ### Documentation:
-  - All documentation is made by the project itself, using the commands made
-  - The first beginnings of documentation has began (as of 15/09/26), the rest will follow soon/ periodically.
-  - Find docs [here]('https://github.com/magnusrwn/dutoaocs/tree/main/docs')
+  - Find the full [documentation here]('https://github.com/magnusrwn/dutoaocs/tree/main/docs')
+---
+>**To be noted**:
+>  - This project is very-mostly hand coded, as at the time I was looking to revisit my TS skills. Thus, have patience with any typos you come across. Thank you.
