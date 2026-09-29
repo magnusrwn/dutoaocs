@@ -80,18 +80,14 @@ export function listItems(userLocation:string, type:"context"|"docs", docFile:st
     else{
         if(type === "context"){
             readItems = listContext(project, docFile)
-            console.log(`found context for ${docFile}:`)
         } else{
-            console.log("found docs in project:")
             readItems = listDocs(project)
         }
 
         if (readItems.length === 0){
             console.log(`no doc found for address ${docFile}`)
         } else {
-            for (const item of readItems){
-                console.log(item)
-            }
+            console.log(type == "context" ? `found context for ${docFile}: ${readItems}` : `found docs in project:  ${readItems}`)
         }
 
         return true
