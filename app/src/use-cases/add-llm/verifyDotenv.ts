@@ -1,5 +1,9 @@
-export default function verifyDotenv():boolean{
-    if(process.env.OPENAI_API_KEY){
+export interface DotenvVariables {
+    OPENAI_API_KEY?:string
+}
+
+export default function verifyDotenv(env:DotenvVariables = process.env):boolean{
+    if(env.OPENAI_API_KEY){
         return true
     } else {
         console.log("Dotenv not found to have 'OPENAI_API_KEY'")
