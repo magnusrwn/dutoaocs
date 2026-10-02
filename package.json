@@ -34,7 +34,8 @@
   "dependencies": {
     "dotenv": "^17.4.2",
     "dutoaocs": "^0.1.0",
-    "openai": "^7.5.0"
+    "openai": "^7.5.0",
+    "user": "^0.0.0"
   },
   "files": [
     "app/",
