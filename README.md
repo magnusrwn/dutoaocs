@@ -1,4 +1,5 @@
 # Welcome to Dutoaocs.
+> Currently (maybe) unstable. Iterating as you read.
 
 ### Overview:
   - Dutoaocs is a free npm package designed to aid in the maintenance and creation of your projects documentation.
