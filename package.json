@@ -1,6 +1,6 @@
 {
   "name": "dutoaocs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Auto documentation for small personal projects",
   "homepage": "https://github.com/magnusrwn/dutoaocs#readme",
   "bugs": {
@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "dotenv": "^17.4.2",
-    "dutoaocs": "^0.1.0",
     "openai": "^7.5.0",
     "user": "^0.0.0"
   },
