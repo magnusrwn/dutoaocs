@@ -1,34 +1,22 @@
+import assert from "node:assert/strict"
 import test from "node:test"
-import assert from "node:assert"
-import readline from "node:readline/promises"
-import { stdin as input, stdout as output } from 'node:process';
+import getProjectName from "../../app/src/use-cases/init/getProjectName"
+import { createReadlineMock } from "./testHelpers"
 
-// Origional function import:
-// import getProjectName from "../../app/src/use-cases/index"
-function testGetProjectName(rl:readline.Interface, projectName:string):boolean{
-    if (projectName.length > 100){
-        return false
-    } else {
-        return true
-    }
-}
+test("asks again when the project name is longer than 100 characters", async () => {
+    const validProjectName = "valid-project-name"
+    const rl = createReadlineMock(["a".repeat(101), validProjectName])
 
-const rl:readline.Interface = readline.createInterface({input, output})
+    const projectName = await getProjectName(rl)
 
-
-test('passes when input is > 100 chars and functions returns false', () => {
-    const testProjectNameError:string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore extra-chars-were needed here."
-    const rErr:boolean = testGetProjectName(rl, testProjectNameError)
-
-    assert.strictEqual(rErr, false)
-    
+    assert.strictEqual(projectName, validProjectName)
 })
 
-test("passes when input is <= 100 and function returns true", ()=>{
-    const testProjectNamePass:string = "Lorem ipsum dolor sit amet."
-    const rPass:boolean = testGetProjectName(rl, testProjectNamePass)
+test("returns a project name no longer than 100 characters", async () => {
+    const validProjectName = "Lorem ipsum dolor sit amet."
+    const rl = createReadlineMock([validProjectName])
 
-    assert.strictEqual(rPass, true)
+    const projectName = await getProjectName(rl)
+
+    assert.strictEqual(projectName, validProjectName)
 })
-
-rl.close()
