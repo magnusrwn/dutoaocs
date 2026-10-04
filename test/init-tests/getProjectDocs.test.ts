@@ -21,7 +21,7 @@ test("accepts the parent of an existing docs folder", async (t) => {
     assert.strictEqual(result, docsPath)
 })
 
-test("treats a blank existing docs path as the current location", async (t) => {
+test("treats a blank existing docs path as './docs' (path relative to root)", async (t) => {
     const { projectPath, docsPath } = createMockProject(t)
     const rl = createReadlineMock(["yes", ""])
 
