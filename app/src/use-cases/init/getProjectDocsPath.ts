@@ -8,7 +8,7 @@ export default async function getProjectDocsPath(userLocation:string, rl:readlin
             let existingDocsFolderPath:string = (await rl.question("where is your current '/docs' folder?: "))
 
             if (!existingDocsFolderPath){
-                existingDocsFolderPath = userLocation
+                existingDocsFolderPath = "./docs"
             }
 
             if (existingDocsFolderPath.slice(-5) !== "/docs"){
