@@ -24,7 +24,7 @@
     "dev": "tsx app/bin.ts"
   },
   "bin": {
-    "dutoaocs": "./app/dist/bin.js"
+    "da": "./app/dist/bin.js"
   },
   "devDependencies": {
     "@types/node": "^26.2.0",
