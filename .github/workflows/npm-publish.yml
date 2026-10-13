@@ -20,6 +20,7 @@ jobs:
       - run: npm ci
       - run: npm run prepack
       - run: npm test
+      - run: # SCRIPT HERE (./workflows/iterate_version.sh)
 
   publish-npm:
     permissions:
@@ -40,6 +41,21 @@ jobs:
         with:
           node-version: ${{matrix.node-version}}
           registry-url:
+      
+      - name: iterate version
+        run: |
+          node -e "
+          const fs = require(node:fs);
+          const pkg = require('./package.json')
+          
+          let parts = pkg.version.split('.')
+          
+          const last = parts.length - 1
+          parts[last] = parseInt(parts[last], 10) + 1
+
+          pkg.version = parts.join('.')
+          fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n');
+          "
       
       - name: npm clean
         run: npm run clean
