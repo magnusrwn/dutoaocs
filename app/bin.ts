@@ -14,7 +14,8 @@ import {
     showHelp,
     clearDeadAllDocs,
     clearDeadAllContext,
-    listItems
+    listItems,
+    createDoc
 } from "./src/controllers/index"
 
 
@@ -42,6 +43,12 @@ async function main(){
             break
         }
 
+        // create docs
+        case "create-doc":{
+            createDoc(command, userLocation)
+            break
+        }
+        
 
         // crud doc files
         case "add-doc-file":{
