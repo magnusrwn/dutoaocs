@@ -14,7 +14,7 @@ function validName(name:string):boolean{
     ];
     const badCharsSet:Set<string> = new Set(badChars);
     const result:boolean = [...name].some(char => badCharsSet.has(char))
-    return !result
+    return result
 }
 
 export default function createDocFile(docName:string, project:Project){
@@ -24,9 +24,9 @@ export default function createDocFile(docName:string, project:Project){
         console.log("\nfor example: 'my-doc-file'")
         console.log("note the absence of '.md'!")
     } else {
-        const toWrite = join(project.docFolderPath, docName, ".md")
+        const toWrite = join(project.docFolderPath, `${docName}.md`)
         try{
-            fs.writeFileSync(toWrite, '', 'utf-8')
+            fs.writeFileSync(toWrite, '', { encoding:'utf-8', flag:"wx"})
             console.log(`successfully wrote file at address ${toWrite}`)
         } catch (error){
             console.log(`ran into an error writing the file at address: ${toWrite}\nsee error below\n\n`)
