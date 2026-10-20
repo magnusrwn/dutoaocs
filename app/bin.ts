@@ -14,7 +14,7 @@ import {
     showHelp,
     clearDeadAllDocs,
     clearDeadAllContext,
-    listItems
+    listItems,
     createDoc
 } from "./src/controllers/index"
 
