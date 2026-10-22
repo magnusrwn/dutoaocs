@@ -4,13 +4,13 @@ import fs from "node:fs";
 
 export default function addContextToProject(docFile:string, context:string, project:Project):boolean{
     if (!fs.existsSync(docFile)){
-        console.log(`docs file "${docFile}" does not exist`)
+        console.log(`\ndocs file "${docFile}" does not exist`)
         console.log("pass in a valid docs file path")
         return false
     }
 
     if (!fs.existsSync(context)){
-        console.log(`context file "${context}" does not exist`)
+        console.log(`\ncontext file "${context}" does not exist`)
         console.log("pass in a valid context file path")
         return false
     }

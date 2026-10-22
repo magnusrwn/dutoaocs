@@ -23,7 +23,7 @@ export default function addDocFileToProject(docFilePath: string, project: Projec
         return true
 
     } else {
-        console.log("bad command")
+        console.log("\nbad command")
         console.log(`"${docFilePath}" does not exist relative to your position`)
         console.log("please hand in a valid path")
         return false

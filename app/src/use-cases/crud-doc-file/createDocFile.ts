@@ -19,7 +19,7 @@ function validName(name:string):boolean{
 
 export default function createDocFile(docName:string, project:Project){
     if (validName(docName)){
-        console.log("bad name input");
+        console.log("\nbad name input");
         console.log("doc name must consist: [ 'a-z', '-', '_']")
         console.log("\nfor example: 'my-doc-file'")
         console.log("note the absence of '.md'!")
@@ -27,9 +27,9 @@ export default function createDocFile(docName:string, project:Project){
         const toWrite = join(project.docFolderPath, `${docName}.md`)
         try{
             fs.writeFileSync(toWrite, '', { encoding:'utf-8', flag:"wx"})
-            console.log(`successfully wrote file at address ${toWrite}`)
+            console.log(`\nsuccessfully wrote file at address ${toWrite}`)
         } catch (error){
-            console.log(`ran into an error writing the file at address: ${toWrite}\nsee error below\n\n`)
+            console.log(`\nran into an error writing the file at address: ${toWrite}\nsee error below\n\n`)
             console.log(error)
             console.log("\n")
         }

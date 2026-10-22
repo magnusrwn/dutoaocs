@@ -10,13 +10,13 @@ export async function updateOne(project:Project, doc:string, contextFiles:Array<
     )
 
     if (targetDocContext === undefined){
-        console.log(`doc file "${targetDoc}" is not setup as a doc file in your project`)
+        console.log(`\ndoc file "${targetDoc}" is not setup as a doc file in your project`)
         console.log("to add one, use 'dutoaocs add-doc-file file-name-here'")
         return false
     }
 
     if (!fs.existsSync(targetDoc)){
-        console.log(`docs file "${targetDoc}" does not exist`)
+        console.log(`\ndocs file "${targetDoc}" does not exist`)
         console.log("pass in a valid docs file path")
         return false
     }
@@ -30,7 +30,7 @@ export async function updateOne(project:Project, doc:string, contextFiles:Array<
     for (let i = 0; i < resolvedContextFiles.length; i++){
         let fileName:string = resolvedContextFiles[i]
         if (!fs.existsSync(fileName)){
-            console.log(`context file "${fileName}" does not exist`)
+            console.log(`\ncontext file "${fileName}" does not exist`)
             console.log("skipping missing context file")
             continue
         }
@@ -44,7 +44,7 @@ export async function updateOne(project:Project, doc:string, contextFiles:Array<
     fs.writeFileSync(targetDoc, docsResponse.updatedDocs)
 
     if (docsResponse.ambiguities.trim().length > 0){
-        console.log("unresolved documentation questions:")
+        console.log("\nunresolved documentation questions:")
         console.log(docsResponse.ambiguities)
     }
     return true
@@ -52,7 +52,7 @@ export async function updateOne(project:Project, doc:string, contextFiles:Array<
 
 export async function updateAll(project:Project):Promise<boolean>{
     if (project.docFilesContext === undefined || project.docFilesContext.length === 0){
-        console.log("no doc files added to your 'dutoaocs.config.json'")
+        console.log("\nno doc files added to your 'dutoaocs.config.json'")
         console.log("use 'dutoaocs add-doc-file file-name-here' to add doc files")
         return false
     }

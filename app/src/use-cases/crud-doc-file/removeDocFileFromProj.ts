@@ -7,7 +7,7 @@ export default function removeDocFileFromProj(docFilePath:string, project:Projec
     const jsonStore: JsonProjectStore = new JsonProjectStore(project.configPath)
 
     if (project.docFilesContext === undefined){
-        console.log("no context exists in project config")
+        console.log("\nno context exists in project config")
         return false
     } else {
         
@@ -16,7 +16,7 @@ export default function removeDocFileFromProj(docFilePath:string, project:Projec
         })
 
         if (indexOfStaged < 0){
-            console.log(`the handed doc file path of ${docFilePath} is not setup as a doc file in your project`)
+            console.log(`\nthe handed doc file path of ${docFilePath} is not setup as a doc file in your project`)
             console.log("to set it up run 'dutoaocs add-doc-file /path-to-doc-file-here'")
             return false
         } else {
