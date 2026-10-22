@@ -20,7 +20,7 @@ export default async function getProjectDocsPath(userLocation:string, rl:readlin
                 const docsPath = existingDocsFolderPath
                 return docsPath
             } else {
-                console.log(`${existingDocsFolderPath} does not exist`)
+                console.log(`\n${existingDocsFolderPath} does not exist`)
                 // go back to top
             }
 
@@ -45,11 +45,11 @@ export default async function getProjectDocsPath(userLocation:string, rl:readlin
                         }
                     }
                 } else {
-                    console.log("please input 'yes'/'y' or 'no'/'n'")        
+                    console.log("\nplease input 'yes'/'y' or 'no'/'n'")
                 }
             }
         } else {
-            console.log("please input 'yes'/'y' or 'no'/'n'")
+            console.log("\nplease input 'yes'/'y' or 'no'/'n'")
         }
     }
 }

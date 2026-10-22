@@ -23,6 +23,11 @@ const command:Array<string> = process.argv.slice(2)
 const userLocation:string = process.cwd()
 
 async function main(){
+    if (!command[0]){
+        showHelp()
+        return
+    }
+
     switch (command[0]){
         case "--help":{
             showHelp()
@@ -33,12 +38,11 @@ async function main(){
             break
         }
         case "add-llm":{
-            // verifyer func
             if (command.includes("--verify")){
                 await addLlmVerify(userLocation)
+                break
             }
             
-            // addition steps
             await addLlmLink(userLocation)
             break
         }

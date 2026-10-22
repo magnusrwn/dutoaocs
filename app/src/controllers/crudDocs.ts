@@ -5,22 +5,22 @@ import { updateOne, updateAll, clearAll, listContext, listDocs} from "../use-cas
 export async function updateDocs(command:Array<string>, userLocation:string):Promise<boolean>{
     const project:Project | undefined = getProjectIfExists(userLocation)
     if (project === undefined){
-        console.log(`project not found at path ${userLocation}`)
+        console.log(`\nproject not found at path ${userLocation}`)
         console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
         return false
     } else if (project.docFilesContext === undefined){
-        console.log("no doc files added to your 'dutoaocs.config.json'")
+        console.log("\nno doc files added to your 'dutoaocs.config.json'")
         console.log("use 'dutoaocs add-doc-file file-name-here' to add doc files")
         return false
     } else if (!command[1]){
-        console.log("bad command")
+        console.log("\nbad command")
         console.log("make sure your command follows the pattern: 'dutoaocs update-doc doc-file-path-here'")
         return false
     } else {
         const matcher = command[1].trim()
         const itemToUpdate: DocFileContext | undefined = project.docFilesContext.find(itter => itter.docsFilePath === matcher)
         if (itemToUpdate === undefined){
-            console.log(`no doc file named "${matcher}" is in your project as a doc file`)
+            console.log(`\nno doc file named "${matcher}" is in your project as a doc file`)
             console.log("to add one use 'dutoaocs add-doc-file file-name-here'")
             return false
         } else {
@@ -32,7 +32,7 @@ export async function updateDocs(command:Array<string>, userLocation:string):Pro
 export async function updateAllDocs(userLocation:string):Promise<boolean>{
     const project:Project | undefined = getProjectIfExists(userLocation)
     if (project === undefined){
-        console.log(`project not found at path ${userLocation}`)
+        console.log(`\nproject not found at path ${userLocation}`)
         console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
         return false
     } else {
@@ -44,7 +44,7 @@ export function clearDeadAllDocs(userLocation:string):boolean{
     // check for project
     const project:Project | undefined = getProjectIfExists(userLocation)
     if (project === undefined){
-        console.log(`project not found at path ${userLocation}`)
+        console.log(`\nproject not found at path ${userLocation}`)
         console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
         return false
     } else{
@@ -58,7 +58,7 @@ export function clearDeadAllContext(userLocation:string):boolean{
     // check for project
     const project:Project | undefined = getProjectIfExists(userLocation)
     if (project === undefined){
-        console.log(`project not found at path ${userLocation}`)
+        console.log(`\nproject not found at path ${userLocation}`)
         console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
         return false
     } else{
@@ -73,7 +73,7 @@ export function listItems(userLocation:string, type:"context"|"docs", docFile:st
     let readItems:Array<string> = []
     const project: Project | undefined = getProjectIfExists(userLocation)
     if (project === undefined){
-        console.log(`project not found at path ${userLocation}`)
+        console.log(`\nproject not found at path ${userLocation}`)
         console.log("please ensure your 'dutoaocs.config.json' is in your working dir")
         return false
     }
@@ -85,7 +85,7 @@ export function listItems(userLocation:string, type:"context"|"docs", docFile:st
         }
 
         if (readItems.length === 0){
-            console.log(`no doc found for address ${docFile}`)
+            console.log(`\nno doc found for address ${docFile}`)
         } else {
             console.log(type == "context" ? `found context for ${docFile}: ${readItems}` : `found docs in project:  ${readItems}`)
         }

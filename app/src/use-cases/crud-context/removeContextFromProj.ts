@@ -11,7 +11,7 @@ export default function removeContextFromProj(docFile:string, contextName:string
     )
 
     if (docContext === undefined){
-        console.log(`doc file ${docFile} has no context entry in project`)
+        console.log(`\ndoc file ${docFile} has no context entry in project`)
         console.log("ensure the docs file path is correct")
         return false
     }
@@ -25,7 +25,7 @@ export default function removeContextFromProj(docFile:string, contextName:string
         jsonStore.write(project)
         return true
     } else {
-        console.log(`nothing in project context matches ${contextName}`)
+        console.log(`\nnothing in project context matches ${contextName}`)
         console.log("ensure it is correct")
         return false
     }
