@@ -24,5 +24,6 @@ export default async function addLlmVerify(currentpath:string){
     const jsonProjectStore:JsonProjectStore = new JsonProjectStore(project.configPath)
     project.llmLinked = true
     jsonProjectStore.write(project)
+    console.log("OpenAI API verification succeeded. LLM linked in dutoaocs.config.json.")
 
 }
