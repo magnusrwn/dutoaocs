@@ -43,6 +43,6 @@ export function createDoc(command:Array<string>, userLocation:string){
     } else {
         console.log("\nbad command")
         console.log("make sure that when running 'create-doc' you follow the pattern:")
-        console.log("'dutoaocs <new-file-name>'")
+        console.log("'dutoaocs create-doc <new-file-name>'")
     }
 }
