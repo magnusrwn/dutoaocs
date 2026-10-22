@@ -7,24 +7,24 @@ import fs from "node:fs"
 
 export function addContext(command:Array<string>, userLocation:string){
     if (command.length > 2 && command.length < 5){
-        console.log(`ipnut the context address after 'add-context' command. Unsure on what ${command[3]} is`)
+        console.log(`\nipnut the context address after 'add-context' command. Unsure on what ${command[3]} is`)
     }
 
     // get project form location
     const project:Project | undefined = getProjectIfExists(userLocation)
     if (project === undefined) {
-        console.log("project not found in working dir")
+        console.log("\nproject not found in working dir")
         console.log("make sure you are on the same level as your config file")
     } else {
         // add the file (check for first)
         if (fs.existsSync(command[1]) && fs.existsSync(command[2]) && command[1].includes('docs')){
             if(addContextToProject(command[1], command[2], project)){
-                console.log(`added ${command[2]} as context to for ${command[1]}`)
+                console.log(`\nadded ${command[2]} as context to for ${command[1]}`)
             } else{
-                console.log(`failed to add ${command[2]} as context  for ${command[1]}`)
+                console.log(`\nfailed to add ${command[2]} as context  for ${command[1]}`)
             }
         } else {
-            console.log(`context of ${command[1]} or docs file ${command[2]} does not exist`)
+            console.log(`\ncontext of ${command[1]} or docs file ${command[2]} does not exist`)
             console.log("pass in context file location relative to your working dir")
         }
     }
@@ -33,7 +33,7 @@ export function addContext(command:Array<string>, userLocation:string){
 export function removeContext(command:Array<string>, userLocation:string){
     const project:Project | undefined = getProjectIfExists(userLocation)
     if (project === undefined){
-        console.log("project not found in working dir")
+        console.log("\nproject not found in working dir")
         console.log("make sure you are on the same level as your config file")
     } else if(command[1] && command[2]){
         // `command` is `process.argv.slice(2)`, so indices 1 and 2 are the first two arguments after `rem-context`.
@@ -41,7 +41,7 @@ export function removeContext(command:Array<string>, userLocation:string){
         const contextAdress:string = command[2]
         removeContextFromProj(docFile, contextAdress, project)
     } else {
-        console.log("bad command")
+        console.log("\nbad command")
         console.log("make sure that when running 'rem-context' you follow the pattern:")
         console.log("'dutoaocs rem-context path-to-doc-file-from-root path-to-context-file-from-root'")     
     }

@@ -10,13 +10,13 @@ export default async function getProjectConfigPath(userLocation:string, rl:readl
             return configPath
         } else if (["no", "n"].includes(configPathChoice)){
             while (true){
-                console.log("when inputing file path do noto include 'dautoaocs.config.json' at the end")
+                console.log("\nwhen inputing file path do noto include 'dautoaocs.config.json' at the end")
                 let customConfigPath:string = await rl.question("input full path here: ")
                 if (fs.existsSync(customConfigPath)){
                     const configPath:string = path.join(customConfigPath, "dutoaocs.config.json")
                     return configPath
                 } else {
-                    console.log(`path: ${customConfigPath} does not exist`)
+                    console.log(`\npath: ${customConfigPath} does not exist`)
                 }
             }
         } else {

@@ -13,7 +13,7 @@ export default async function verifyOpenAiApi(): Promise<boolean> {
     })
     return true
   } catch(error) {
-    console.log("API Key did not pass auth. Rollingback.")
+    console.log("\nAPI Key did not pass auth. Rollingback.")
     if (error instanceof OpenAI.AuthenticationError){
       console.log("Ensure you have sut it up abd copied it to .env correctly")
       console.log("In .env it should be under the name 'OPENAI_API_KEY'")

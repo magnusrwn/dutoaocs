@@ -4,7 +4,7 @@ import fs from "node:fs"
 
 export default function getProjectIfExists(path:string):Project | undefined{
     // normalise
-    console.log(path)
+    console.log(`\n${path}`)
     if (!path.endsWith("dutoaocs.config.json")){
         if (path.endsWith("/")){
             path += "dutoaocs.config.json"

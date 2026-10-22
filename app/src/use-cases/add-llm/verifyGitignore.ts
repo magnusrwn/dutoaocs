@@ -10,7 +10,7 @@ export interface VerifyGitignoreResponse {
 export default function verifyGitignore(currentpath:string):VerifyGitignoreResponse{
     const git_path:string = path.join(currentpath, ".gitignore")
     if (!fs.existsSync(git_path)){
-        console.log("Can not find .gitignore")
+        console.log("\nCan not find .gitignore")
         console.log("Make sure '.gitignore' is in your project root")
         console.log("Make sure you are located in your project root ")
         return {"ok":false}
@@ -19,7 +19,7 @@ export default function verifyGitignore(currentpath:string):VerifyGitignoreRespo
     // read gitignore to ensure '.env' is in it
     const gitignore_data:string = fs.readFileSync(git_path, "utf-8")
     if (!gitignore_data.includes(".env")){
-        console.log("'.env' not found inside your .gitignore")
+        console.log("\n'.env' not found inside your .gitignore")
         console.log("It is necessary for it to be in there to continue")
         console.log("Rolling back your change in your .env.")
         rollbackDotenv()
