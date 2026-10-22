@@ -1,47 +1,28 @@
 name: Node.js Package Publish
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches: [main]
 
 jobs:
-  build:
-    strategy:
-      matrix:
-        node-version: [26.x]
-
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: ${{matrix.node-version}}
-      - run: npm run clean
-      - run: npm ci
-      - run: npm run prepack
-      - run: npm test
-      - run: # SCRIPT HERE (./workflows/iterate_version.sh)
-
   publish-npm:
+    if: github.event.pull_request.merged == true
     permissions:
       contents: read
       id-token: write
-    
-    needs: build
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [26.x]
 
     steps:
-      - uses: actions/checkout@v4 
-      
+      - uses: actions/checkout@v4
       - name: Use Node.js version ${{matrix.node-version}}
         uses: actions/setup-node@v4
         with:
           node-version: ${{matrix.node-version}}
           registry-url:
-      
       - name: iterate version
         run: |
           node -e "
@@ -56,13 +37,10 @@ jobs:
           pkg.version = parts.join('.')
           fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2) + '\n');
           "
-      
       - name: npm clean
         run: npm run clean
-      
       - name: npm ci
         run: npm ci
-      
       - name: npm prepack
         run: npm run prepack
 
