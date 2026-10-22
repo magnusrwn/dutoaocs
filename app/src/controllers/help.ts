@@ -14,6 +14,9 @@ Commands:
   add-doc-file <doc-path>
     Add an existing documentation file to the project.
 
+  create-doc <new-file-name>
+    Create a new documentation file in the project.
+
   rem-doc-file <doc-path>
     Remove a documentation file from the project configuration.
 
